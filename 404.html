@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #14100e; color: #cfc6b4;
+    font-family: "MingLiU","PMingLiU","細明體",serif; }
+  .box { max-width: 520px; margin: 0 auto; padding: 18vh 24px 0; }
+  h1 { font-size: 40px; font-weight: normal; color: #e8dfcb; letter-spacing: 8px; margin: 0; }
+  .sub { font-size: 10px; letter-spacing: 4px; color: #5a5248;
+    font-family: Arial, sans-serif; margin: 8px 0 40px; }
+  p { font-size: 14px; line-height: 2.1; color: #b9b09d; }
+  .gray { color: #6b6357; font-size: 12px; }
+  a { color: #9fb5a6; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  hr { border: 0; border-top: 1px solid #3a332c; margin: 28px 0; }
+  .foot { position: fixed; left: 0; right: 0; bottom: 16px; text-align: center;
+    font-size: 10px; color: #3a332c; font-family: Arial, sans-serif; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>404</h1>
+  <div class="sub">NOT FOUND</div>
+
+  <p>這個頁面已經不在了。</p>
+  <p class="gray">可能是連結有誤，也可能它本來就沒有存在過。</p>
+
+  <hr>
+
+  <p><a href="javascript:history.back()">回上一頁</a>　｜　<a href="/" id="homeLink">回首頁</a></p>
+<script>
+(function () {
+  // GitHub Pages 的 404 會保留原本的深層路徑。
+  // 專案站 /repo/... 取第一段；使用者主站 /xxx 這種單層路徑則回首頁。
+  var parts = location.pathname.split("/").filter(Boolean);
+  var isFile = parts.length && /\.html?$/.test(parts[parts.length - 1]);
+  var root = "/";
+  if (parts.length >= 3 || (parts.length === 2 && isFile)) {
+    root = "/" + parts[0] + "/";
+  }
+  document.getElementById("homeLink").href = root;
+})();
+</script>
+</div>
+<div class="foot">《回瀾》　·　本作為虛構創作</div>
+</body>
+</html>

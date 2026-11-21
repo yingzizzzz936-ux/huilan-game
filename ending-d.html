@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>夢回</title>
+<link rel="stylesheet" href="css/old.css">
+<style>
+  .choices { margin: 22px 0 0; }
+  .choices button {
+    display: block; width: 100%; box-sizing: border-box;
+    margin-bottom: 10px; padding: 11px 14px; text-align: left;
+    letter-spacing: 1px;
+  }
+  .choices button:hover { border-color: #8fa89b; }
+  .line { font-size: 15px; line-height: 2.2; color: #cfc6b4; }
+  .fadein { animation: fi .9s ease both; }
+  @keyframes fi { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="head">
+    <div class="logo">夢　回</div>
+    <div class="sub">A-1998-07 &nbsp;/&nbsp; Rewind</div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">回工作室</a>｜
+    <a href="door/index.html">回那扇門</a>｜
+    <a href="end.html">存檔摘要</a>
+  </div>
+
+  <div class="body">
+
+    <p class="line">你回到 1998 年 8 月 7 日。</p>
+    <p class="line">堤防上有七個人。你看得見他們的臉。</p>
+    <p class="line">你可以叫住其中一個。</p>
+
+    <div class="choices" id="choices">
+      <button type="button" data-i="0">叫住林潮生</button>
+      <button type="button" data-i="1">叫住周夢回</button>
+      <button type="button" data-i="2">誰也不叫</button>
+    </div>
+
+    <div id="resp" style="display:none;margin-top:24px;">
+      <p class="line fadein" id="line"></p>
+    </div>
+
+    <div id="after" style="display:none;margin-top:10px;">
+      <div class="divider"></div>
+      <p class="line fadein">水退之後，堤防上剩下六個人。</p>
+      <p class="line fadein">第七個人的位置是空的。</p>
+      <p class="line fadein" style="color:#e8dfcb;margin-top:22px;">你沒有改變任何事。</p>
+      <p class="line fadein" style="color:#e8dfcb;">你只是終於記得了。</p>
+      <p class="small fadein" style="margin-top:30px;">
+        <a href="end.html?e=D">（存檔摘要）</a>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    《回瀾》　·　本作為虛構創作，人物與地點均屬虛構。
+  </div>
+
+</div>
+
+<script src="js/hl-audio.js"></script>
+<script>
+(function () {
+  var LINES = [
+    "他回頭，看了你一眼，說：已經來不及了。",
+    "他回頭。他的臉，是你的臉。",
+    "你站在那裡，直到海水退去。"
+  ];
+
+  var choices = document.getElementById("choices");
+  var resp    = document.getElementById("resp");
+  var lineEl  = document.getElementById("line");
+  var after   = document.getElementById("after");
+
+  choices.addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("button[data-i]") : null;
+    if (!b) return;
+
+    var i = parseInt(b.getAttribute("data-i"), 10) || 0;
+    choices.style.display = "none";
+    lineEl.textContent = LINES[i];
+    resp.style.display = "block";
+
+    if (window.HL) { try { HL.once("e08_water_close", 0.55); } catch (err) {} }
+
+    setTimeout(function () { after.style.display = "block"; }, 1800);
+    setTimeout(function () {
+      try { after.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (err) {}
+    }, 2200);
+  });
+})();
+</script>
+</body>
+</html>

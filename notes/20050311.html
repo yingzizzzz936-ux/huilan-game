@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2005/03/11 - 工作筆記</title>
+<link rel="stylesheet" href="../css/old.css">
+</head>
+<body data-amb="e01_tape_machine" data-amb-vol="0.26">
+<div class="page">
+  <div class="head">
+    <div class="logo">回岸音檔修復工作室</div>
+    <div class="sub">Notes</div>
+  </div>
+  <div class="nav">
+    <a href="../index.html">首頁</a>｜
+    <a href="../works.html">作品清單</a>｜
+    <a href="../guestbook.html">留言板</a>｜
+    <a href="20050310.html">工作筆記</a>
+  </div>
+  <div class="body">
+    <h2>2005/03/11　最後一篇</h2>
+    <div style="height:140px;"></div>
+
+    <h3>附件</h3>
+    <p class="sndline">
+      <button class="sndbtn" id="lastBtn" type="button">▶ 0311_0312.wav</button>
+      <span class="small gray" id="lastTime">0:00 / 1:01</span>
+    </p>
+    <p class="small gray" id="lastNote">（沒有轉檔完成。只救回音軌，長度 1 分 01 秒。）</p>
+
+    <div class="divider"></div>
+    <p class="small gray">
+      上一篇：<a href="20050310.html">2005/03/10　第七卷</a>
+    </p>
+  </div>
+  <div class="foot">
+    Copyright 2004 回岸音檔修復工作室　最後更新 2005/03/11 03:12<br>
+    <a class="src" href="#" data-src="notes/20050311.html">原始檔</a>
+    <br><br>
+    <span style="color:#3f3830;">※ 本網站為虛構創作。</span>
+  </div>
+
+<!-- 我數到七 -->
+</div>
+<script>window.HL_VIEWER="../_v/viewer.html";</script>
+<script src="../js/hl-audio.js"></script>
+<script>
+(function(){
+  var btn = document.getElementById("lastBtn");
+  var tm  = document.getElementById("lastTime");
+  var note= document.getElementById("lastNote");
+  if (!btn) return;
+  var a = new Audio(HL.url("v04_zhou_last"));
+  a.preload = "auto";
+  function fmt(t){
+    var m = Math.floor(t/60), s = Math.floor(t%60);
+    return m + ":" + (s<10?"0":"") + s;
+  }
+  btn.addEventListener("click", function(){
+    if (a.paused) {
+      a.volume = 0.85;
+      var p = a.play(); if (p && p.catch) p.catch(function(){});
+      btn.textContent = "❚❚ 暫停";
+    } else {
+      a.pause();
+      btn.textContent = "▶ 0311_0312.wav";
+    }
+    note.textContent = "（播放中，請勿調整音量。）";
+  });
+  a.addEventListener("timeupdate", function(){
+    tm.textContent = fmt(a.currentTime) + " / 1:01";
+  });
+  a.addEventListener("ended", function(){
+    btn.textContent = "▶ 0311_0312.wav";
+    note.textContent = "（播放結束。第七個數，沒有錄到。）";
+  });
+})();
+</script>
+<script src="../js/site.js"></script>
+</body>
+</html>

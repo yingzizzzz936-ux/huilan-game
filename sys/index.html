@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>工單系統 - 回岸</title>
+<link rel="stylesheet" href="../css/old.css">
+</head>
+<body class="">
+<div class="page">
+
+  <div class="head">
+    <div class="logo">HN 工單系統</div>
+    <div class="sub">HUI-AN WORK ORDER &nbsp;/&nbsp; v1.1</div>
+  </div>
+
+  <div class="nav">
+    <a href="../index.html">回主站</a>｜
+    <a href="../works/a-017.html">A-017</a>
+  </div>
+
+  <div class="body">
+    <h2>工單系統</h2>
+    <p class="small gray">v1.1　僅限內部使用　主機：工作室本機</p>
+
+    <form id="login" style="margin-top:16px;">
+      <div class="formrow"><label>工號</label><input type="text" id="u" value=""></div>
+      <div class="formrow"><label>口令</label><input type="text" id="p" value=""></div>
+      <div class="formrow"><label></label><input type="submit" value="登　入"></div>
+    </form>
+
+    <p id="err" class="warn small" style="min-height:18px;"></p>
+
+    <p class="small gray">
+      工號：年度（四碼）　——　重建，或法會<br>
+      口令：法會日期（月日四碼）
+    </p>
+
+    <p class="small gray" style="margin-top:18px;">
+      ※ 本系統於 2005/03/11 之後無登入紀錄。
+    </p>
+<!-- 工號不是員編。是年度。 -->
+
+  </div>
+
+  <div class="foot">
+    Copyright 2004 回岸音檔修復工作室　最後更新 2005/03/11 03:12<br>
+    <a class="src" href="#" data-src="sys/index.html">原始檔</a><br><br><span style="color:#3f3830;">※ 本網站為虛構創作，人物、地點與事件均屬虛構。</span>
+  </div>
+
+</div>
+<script>window.HL_VIEWER="../_v/viewer.html";</script>
+<script src="../js/hl-audio.js"></script>
+<script src="../js/site.js"></script>
+<script>
+(function(){
+  var f = document.getElementById("login");
+  var err = document.getElementById("err");
+  f.addEventListener("submit", function(e){
+    e.preventDefault();
+    var u = document.getElementById("u").value.trim();
+    var p = document.getElementById("p").value.trim();
+    if ((u === "1997" || u === "1998" || u === "2003") && p === "0807") {
+      try { sessionStorage.setItem("hl_sys", "1"); } catch (e2) {}
+      location.href = "workorder.html";
+    } else {
+      err.textContent = "工號或口令錯誤。連續三次錯誤將鎖定本機。";
+    }
+  });
+})();
+</script>
+</body>
+</html>

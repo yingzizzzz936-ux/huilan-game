@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>pending / 0347</title>
+<link rel="stylesheet" href="../../../css/old.css">
+</head>
+<body>
+<div class="page">
+  <div class="head">
+    <div class="logo">guestbook 0347</div>
+    <div class="sub">Restored record</div>
+  </div>
+  <div class="body">
+    <table class="list">
+      <tr><td style="width:90px" class="gray">時間</td><td id="t">—</td></tr>
+      <tr><td class="gray">來源</td><td>本機</td></tr>
+      <tr><td class="gray">解析度</td><td id="res">—</td></tr>
+      <tr><td class="gray">時區</td><td id="tz">—</td></tr>
+      <tr><td class="gray">語言</td><td id="lang">—</td></tr>
+      <tr><td class="gray">瀏覽器</td><td id="ua" style="word-break:break-all;">—</td></tr>
+      <tr><td class="gray">內容</td><td id="msg">（本機無留言紀錄）</td></tr>
+      <tr><td class="gray">狀態</td><td>pending</td></tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <p class="small gray">
+      聲音檔　<a href="#" onclick="return false;">0347.wav</a>
+      <span id="wav" style="font-family:'Courier New',monospace;">1,204 KB</span>
+    </p>
+    <p class="small gray" id="wavnote">檔案損毀。</p>
+
+  </div>
+  <div class="foot">
+    Copyright 2004 回岸音檔修復工作室　最後更新 2005/03/11 03:12<br>
+    <span style="color:#3f3830;">※ 本網站為虛構創作，人物、地點與事件均屬虛構。</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  function pad(n){ return n < 10 ? "0" + n : "" + n; }
+  var d = new Date();
+  document.getElementById("t").textContent =
+    d.getFullYear() + "/" + pad(d.getMonth()+1) + "/" + pad(d.getDate()) +
+    " " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+
+  document.getElementById("res").textContent =
+    window.screen.width + "x" + window.screen.height +
+    "（可用 " + window.screen.availWidth + "x" + window.screen.availHeight + "）";
+
+  try {
+    document.getElementById("tz").textContent =
+      Intl.DateTimeFormat().resolvedOptions().timeZone || "—";
+  } catch(e){}
+
+  document.getElementById("lang").textContent = navigator.language || "—";
+  document.getElementById("ua").textContent = navigator.userAgent;
+
+  var msg = localStorage.getItem("hl_msg");
+  if (msg) document.getElementById("msg").textContent = msg;
+
+  var size = 1204;
+  var el = document.getElementById("wav");
+  setInterval(function(){
+    size += 3;
+    el.textContent = size.toLocaleString() + " KB";
+  }, 2000);
+})();
+</script>
+</body>
+</html>

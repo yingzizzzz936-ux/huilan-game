@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>A-1998-07 - 封存側錄</title>
+<link rel="stylesheet" href="../../css/old.css">
+</head>
+<body class="" data-amb="e08_water_close" data-amb-vol="0.3">
+<div class="page">
+
+  <div class="head">
+    <div class="logo">1998/08/07 法會側錄</div>
+    <div class="sub">CONFIDENTIAL &nbsp;/&nbsp; 封存資料</div>
+  </div>
+
+  <div class="nav">
+    <a href="../../backup/0311/hn-2005-0311.html">HN-2005-0311</a>｜
+    <a href="../../sub.chaoyin/notice.html">潮音宮公告</a>｜
+    <a href="../../index.html">回岸工作室</a>
+  </div>
+
+  <div class="body">
+    <h2>A-1998-07</h2>
+    <p class="small gray">1998 年回瀾法會．側錄帶．封存</p>
+
+    <table class="list" style="width:520px;">
+      <tr><td style="width:90px" class="gray">時間</td><td>1998/08/07 23:41</td></tr>
+      <tr><td class="gray">地點</td><td>汐平縣澪港鎮海尾路七號後方堤防</td></tr>
+      <tr><td class="gray">記錄</td><td>CAM03／側錄帶 A-1998-07</td></tr>
+      <tr><td class="gray">人員</td><td>入水七人．六具遺體．失蹤一人</td></tr>
+      <tr><td class="gray">備註</td><td class="warn">第七人的名字沒有登記</td></tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <p style="text-align:center;margin:12px 0 4px;">
+      <img class="scan" src="../../assets/img/cctv_1998.jpg" width="520" height="390" alt="CAM03 1998/08/07 23:41:06" style="display:inline-block;">
+    </p>
+    <p class="caption" style="text-align:center;">CAM03　1998-08-07 23:41:06　（畫面已劣化）</p>
+
+    <p style="text-align:center;margin:18px 0 4px;">
+      <img class="scan" src="../../assets/img/tapes_seven.jpg" width="480" height="320" alt="法會前點交的七卷帶子" style="display:inline-block;">
+    </p>
+    <p class="caption" style="text-align:center;">法會前點交的七卷帶子．第七卷標籤空白</p>
+
+    <div class="divider"></div>
+
+    <h3>側錄帶（音檔）</h3>
+    <p class="sndline">
+      <button class="sndbtn" id="countBtn" type="button">▶ 播放側錄帶（26 秒）</button>
+      <span class="small gray" id="countTime">0:00 / 0:26</span>
+    </p>
+    <div class="subtitle" id="countSub" style="min-height:40px;">
+      <span class="gray">（按下播放。帶子很舊，請把音量調大一點。）</span>
+    </div>
+
+    <div id="match" style="display:none;margin-top:12px;">
+      <table class="list" style="width:520px;">
+        <tr><td style="width:110px" class="gray">聲紋比對</td><td>周夢回（1998）</td></tr>
+        <tr><td class="gray">吻合度</td><td>97.4%（不確定區間 91–99%）</td></tr>
+        <tr><td class="gray">時間</td><td>1998/08/07 23:44:19</td></tr>
+      </table>
+    </div>
+
+    <p class="small gray" style="margin-top:12px;">
+      ※ 帶子後段是水聲，長約 40 秒。轉檔時已截掉。<br>
+      ※ 第七個聲音不在名冊上。
+    </p>
+
+  </div>
+
+  <div class="foot">
+    Copyright 2004 回岸音檔修復工作室　最後更新 2005/03/11 03:12<br>
+    <a class="src" href="#" data-src="backup/1998/index.html">原始檔</a><br><br><span style="color:#3f3830;">※ 本網站為虛構創作，人物、地點與事件均屬虛構。</span>
+  </div>
+
+</div>
+<script>window.HL_VIEWER="../../_v/viewer.html";</script>
+<script src="../../js/hl-audio.js"></script>
+<script src="../../js/site.js"></script>
+<script>
+(function(){
+  var btn = document.getElementById("countBtn");
+  var sub = document.getElementById("countSub");
+  var tm  = document.getElementById("countTime");
+  var match = document.getElementById("match");
+  if (!btn) return;
+  var a = new Audio(HL.url("v05_count_1998"));
+  a.preload = "auto";
+  function fmt(t){ var m=Math.floor(t/60), s=Math.floor(t%60); return m+":"+(s<10?"0":"")+s; }
+  function line(t){
+    if (t < 0.8) return "（帶子轉動聲）";
+    if (t < 3.4) return "一。";
+    if (t < 6.4) return "二。";
+    if (t < 9.4) return "三。";
+    if (t < 12.4) return "四。";
+    if (t < 15.4) return "五。";
+    if (t < 18.4) return "六。";
+    if (t < 20.8) return "（停了三秒。）";
+    if (t < 23.0) { if (match) match.style.display = "block"; return "我在這裡。"; }
+    return "（水聲。很長。）";
+  }
+  btn.addEventListener("click", function(){
+    if (a.paused) {
+      a.volume = 0.85;
+      var p = a.play(); if (p && p.catch) p.catch(function(){});
+      btn.textContent = "❚❚ 暫停";
+    } else {
+      a.pause(); btn.textContent = "▶ 播放側錄帶（26 秒）";
+    }
+  });
+  a.addEventListener("timeupdate", function(){
+    tm.textContent = fmt(a.currentTime) + " / 0:26";
+    var cur = line(a.currentTime);
+    if (sub.dataset.line !== cur) { sub.dataset.line = cur; sub.textContent = cur; }
+  });
+  a.addEventListener("ended", function(){
+    btn.textContent = "▶ 播放側錄帶（26 秒）";
+    sub.innerHTML = '<span class="gray">（帶子結束。第七個數，仍然沒有。）</span>';
+  });
+})();
+</script>
+</body>
+</html>

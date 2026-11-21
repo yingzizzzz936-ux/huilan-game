@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>未命名檔案</title>
+<link rel="stylesheet" href="../css/old.css">
+</head>
+<body>
+<div class="page">
+  <div class="head">
+    <div class="logo">／door／</div>
+    <div class="sub">未命名</div>
+  </div>
+  <div class="body">
+
+    <div class="doorwrap">
+      <img class="doorimg" src="../assets/img/door.jpg" width="250" height="400" alt="樓梯間的鐵門，門縫下有一線光">
+      <div style="margin-top:26px;color:#7d7466;" class="small">
+        樓梯間沒有燈。門縫下有一線光。<br>
+        （建議配戴耳機。音量請先調小。）
+      </div>
+
+      <div style="margin-top:22px;">
+        <input type="text" id="who" placeholder="你是誰？" style="width:220px;text-align:center;font-size:14px;padding:7px;">
+      </div>
+      <div style="margin-top:10px;">
+        <button id="openBtn" type="button">開　門</button>
+      </div>
+      <div class="small gray" style="margin-top:24px;">
+        <a href="#" id="leaveBtn">（不開門，轉身下樓）</a>
+      </div>
+      <div class="small gray" id="dreamRow" style="margin-top:10px;display:none;">
+        <a href="../ending-d.html">（你知道第七聲說了什麼。）</a>
+      </div>
+      <div id="hint" class="small gray" style="margin-top:14px;min-height:18px;"></div>
+    </div>
+
+    <div id="ending" class="ending" style="display:none;"></div>
+
+  </div>
+  <div class="foot">
+    Copyright 2004 回岸音檔修復工作室　最後更新 2005/03/11 03:12<br>
+    <span style="color:#3f3830;">※ 本網站為虛構創作，人物、地點與事件均屬虛構。</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var input = document.getElementById("who");
+  var btn   = document.getElementById("openBtn");
+  var hint  = document.getElementById("hint");
+  var end   = document.getElementById("ending");
+  var saved = localStorage.getItem("hl_name") || "";
+  if (saved) input.value = saved;
+
+  function show(html, counter) {
+    end.style.display = "block";
+    end.innerHTML = html;
+    if (counter !== undefined) localStorage.setItem("hl_visits", String(counter));
+    document.querySelector(".doorwrap").style.display = "none";
+    end.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  btn.addEventListener("click", function(){
+    var name = input.value.trim();
+    var snd = (window.HL) ? HL.once("e03_door_hinge", 0.8) : null;
+    if (name) {
+      show(
+        '<h2>回岸</h2>' +
+        '<p>門開了。</p>' +
+        '<p>樓梯間沒有人。你回頭，工作室的燈還亮著。桌上有一卷帶子，標籤上寫著你的名字。</p>' +
+        '<p class="gray">網站恢復更新。站長的名字換成了你的。</p>' +
+        '<p class="small gray">（你沒有聽見腳步聲。）</p>' +
+        '<p class="small"><a href="../index.html">回工作室首頁</a>　<a href="../backup/20261121/guestbook/0347.html">（存檔）</a>　<a href="../end.html?e=A">（存檔摘要）</a></p>',
+        1
+      );
+    } else {
+      show(
+        '<h2>沉澱</h2>' +
+        '<p>門開了。</p>' +
+        '<p>樓梯間沒有人。你等了很久。門縫下的光，熄了。</p>' +
+        '<p>你下樓。街上很安靜。身後的門自己關上。</p>' +
+        '<p class="small gray">（水聲是從門縫裡出來的。）</p>' +
+        '<p class="small"><a href="../index.html">回工作室首頁</a>　<a href="../end.html?e=B">（存檔摘要）</a></p>',
+        0
+      );
+    }
+  });
+
+  // B 線：她說名字
+  var origShow = show;
+  show = function(html, counter){
+    origShow(html, counter);
+    if (counter === 0 && window.HL) {
+      setTimeout(function(){ HL.once("e08_water_close", 0.6); }, 900);
+      setTimeout(function(){
+        var p = document.createElement("p");
+        p.className = "gray";
+        p.textContent = "她第一次說出自己的名字：「我叫秋月，不叫澪。」";
+        document.getElementById("ending").appendChild(p);
+        HL.once("v03_name_g", 0.75);
+      }, 2600);
+    }
+  };
+
+  try {
+    if (localStorage.getItem("hl_seven")) {
+      document.getElementById("dreamRow").style.display = "block";
+    }
+  } catch (e) {}
+
+  document.getElementById("leaveBtn").addEventListener("click", function(e){
+    e.preventDefault();
+    var nm = (input.value.trim() || localStorage.getItem("hl_name") || "訪客").trim() || "訪客";
+    try {
+      localStorage.setItem("hl_anchor", nm);
+      localStorage.setItem("hl_visits", "1");
+    } catch (e2) {}
+    location.href = "../end.html?e=C";
+    return false;
+  });
+
+  input.addEventListener("keydown", function(e){
+    if (e.key === "Enter") btn.click();
+  });
+})();
+</script>
+<script src="../js/hl-audio.js"></script>
+</body>
+</html>

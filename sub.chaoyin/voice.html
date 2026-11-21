@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>御子之聲 - 潮音宮</title>
+<link rel="stylesheet" href="../css/old.css">
+</head>
+<body class="y1999" data-amb="e06_fluorescent_hum" data-amb-vol="0.16">
+<div class="page">
+
+  <div class="head">
+    <div class="logo">潮音宮</div>
+    <div class="sub">CHAO-YIN GONG &nbsp;/&nbsp; 汐平縣澪港鎮海尾路七號</div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首頁</a>｜
+    <a href="doctrine.html">教義</a>｜
+    <a href="scripture.html">回瀾經</a>｜
+    <a href="roster.html">名錄</a>｜
+    <a href="notice.html">公告</a>｜
+    <a href="voice.html">御子之聲</a>
+  </div>
+
+  <div class="body">
+    <h2>御子之聲</h2>
+    <p>御子為本宮與海之間的錨。歷代御子留聲七段，每段都是同一句話。</p>
+    <p class="small gray">錄音年份不詳。帶子由歷任住持保管，第七段只剩半句。</p>
+
+    <table class="list" style="margin-top:16px;">
+      <tr><td class="gray" style="width:96px;">第一聲</td>
+          <td><button class="sndbtn" data-v="v03_name_a" type="button">▶ 播放</button></td>
+          <td class="gray">平靜</td></tr>
+      <tr><td class="gray" style="width:96px;">第二聲</td>
+          <td><button class="sndbtn" data-v="v03_name_b" type="button">▶ 播放</button></td>
+          <td class="gray">哽咽</td></tr>
+      <tr><td class="gray" style="width:96px;">第三聲</td>
+          <td><button class="sndbtn" data-v="v03_name_c" type="button">▶ 播放</button></td>
+          <td class="gray">生氣</td></tr>
+      <tr><td class="gray" style="width:96px;">第四聲</td>
+          <td><button class="sndbtn" data-v="v03_name_d" type="button">▶ 播放</button></td>
+          <td class="gray">釋然</td></tr>
+      <tr><td class="gray" style="width:96px;">第五聲</td>
+          <td><button class="sndbtn" data-v="v03_name_e" type="button">▶ 播放</button></td>
+          <td class="gray">疲憊</td></tr>
+      <tr><td class="gray" style="width:96px;">第六聲</td>
+          <td><button class="sndbtn" data-v="v03_name_f" type="button">▶ 播放</button></td>
+          <td class="gray">笑</td></tr>
+      <tr><td class="gray" style="width:96px;">第七聲</td>
+          <td><button class="sndbtn" data-v="v03_name_g" type="button">▶ 播放</button></td>
+          <td class="gray">聽不清楚</td></tr>
+    </table>
+
+    <p class="small gray" style="margin-top:14px;">
+      ※ 本頁音檔為 2003 年轉存，原帶已受潮。<br>
+      ※ 建議配戴耳機。請勿在夜間連續播放七段。
+    </p>
+
+    <div id="seventh" style="display:none;margin-top:22px;border-top:1px solid #3a332c;padding-top:18px;">
+      <p style="font-size:18px;letter-spacing:4px;color:#e8dfcb;margin:0 0 10px;">「回來。」</p>
+      <p class="small gray" style="margin:0;">
+        第七聲聽清楚了。她說的是：回來。<br>
+        錄音年份不詳——但這句話，是對 1998 年的那個人說的。
+      </p>
+      <p class="small" style="margin-top:12px;">
+        <a href="../door/index.html">（去開那扇門）</a>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    Copyright 2004 回岸音檔修復工作室　最後更新 2005/03/11 03:12<br>
+    <a class="src" href="#" data-src="sub.chaoyin/voice.html">原始檔</a><br><br><span style="color:#3f3830;">※ 本網站為虛構創作，人物、地點與事件均屬虛構。</span>
+  </div>
+
+</div>
+<script>window.HL_VIEWER="../_v/viewer.html";</script>
+<script src="../js/hl-audio.js"></script>
+<script src="../js/site.js"></script>
+<script>
+(function(){
+  var rows = Array.prototype.slice.call(document.querySelectorAll("button[data-v]"));
+  var played = [];
+  var unlocked = false;
+  var box = document.getElementById("seventh");
+
+  function unlock() {
+    if (unlocked) return;
+    unlocked = true;
+    try { localStorage.setItem("hl_seven", "1"); } catch (e) {}
+    if (box) box.style.display = "block";
+  }
+
+  rows.forEach(function(b, i){
+    b.addEventListener("click", function(){
+      rows.forEach(function(x){ x.textContent = "▶ 播放"; });
+      b.textContent = "❚❚ 播放中";
+      HL.once(b.getAttribute("data-v"), 0.8);
+
+      played.push(i);
+      if (played.length > 7) played.shift();
+      if (played.length === 7) {
+        var ok = true;
+        for (var k = 0; k < 7; k++) { if (played[k] !== k) { ok = false; break; } }
+        if (ok) unlock();
+      }
+    });
+  });
+
+  try {
+    if (localStorage.getItem("hl_seven")) { unlocked = true; if (box) box.style.display = "block"; }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+# 《回瀾》網頁解謎 · v1.1
+
+一個 2005 年的假工作室網站。玩家想預約修一盤磁帶，最後發現被修的是自己。
+
+本版以 `huilan-v1.0.zip` 為基礎，按《素材待辦》、《回瀾-v2-修改清單》與《v1.1 待修清單》補完：
+
+- 四張必需圖重做：站長過曝照、1998 剪報、卡帶「七」、BBS 截圖
+- 四段核心音重做：V-01 原始／修復（40.0／39.2 秒）、V-04 最後錄音（61 秒）、V-07 呼吸層（180 秒、14 次／分鐘）
+- 全部網頁 MP3 統一 128 kbps
+- 37 個 HTML 全頁補上 viewport；375px 寬度逐頁驗收，沒有橫向滾動
+- 修掉 A-017 切到 100% 時的時間軸跳動與音量接縫
+- 修掉 B 結局標題錯字、結束頁殘留的舊版字樣、深層 404 回首頁連結
+- 首頁與開始頁的 Open Graph 圖換成 `assets/img/og_huilan.jpg`
+- 補回 v1.0 漏掉的 `assets/gif/divider.gif`（CSS 一直在引用它）
+
+---
+
+## 怎麼開
+
+**推薦：本機伺服器**（「原始檔」功能與音訊拖曳才有效）
+
+```bash
+cd 這個資料夾
+python3 -m http.server 8765
+```
+
+打開 <http://127.0.0.1:8765/>
+
+直接雙擊 `index.html` 也能看劇情，但 `_v/viewer.html` 會讀不到檔案，
+而且 `player-a017.js` 在 `file://` 下會跳過 Web Audio，改用瀏覽器原生播放：
+**聽得到聲音，但降噪滑桿不會有濾波效果**。要看完整效果，請開一個本機伺服器。
+這時也可用 <kbd>Ctrl</kbd>+<kbd>U</kbd> 檢視原始碼。
+
+> 注意：Python 內建的 `http.server` 不支援 HTTP Range。A-017 的拖曳時間軸、
+> 100% 切換在這種伺服器上可能不準；GitHub Pages 支援 Range，部署後正常。
+> 要本機測拖曳，請用支援 Range 的伺服器（例如 `npx serve` 或任何正式的 web server）。
+
+---
+
+## 發到 GitHub Pages
+
+1. 新建一個 repository（免費方案請選 **Public**），不要勾選「Add a README」。
+2. 把**本資料夾裡的內容**上傳到 repository 根目錄：`index.html` 必須在根目錄，不要多包一層 `huilan-v1.1/`。
+3. Repository → **Settings → Pages** → Source 選 **Deploy from a branch** → Branch 選 `main`、資料夾選 `/ (root)` → Save。
+4. 等 1–2 分鐘，網址會是：
+
+   `https://<你的帳號>.github.io/<repo 名稱>/`
+
+   不是 `https://github.com/<你的帳號>/<repo 名稱>`。後面那個是程式碼頁，不會執行遊戲。
+
+專案根目錄已放了 `.nojekyll`。沒有它，GitHub Pages 的 Jekyll 會忽略 `_v/` 這種底線開頭的資料夾，「原始檔」就全部 404。
+
+### 聲音會不會有？
+
+會。網頁音檔在 `assets/audio/web/*.mp3`，跟著 repository 上傳，Pages 會正常提供。
+但有兩件事必須知道：
+
+- 瀏覽器禁止自動播放。玩家一定要先按「進入」、播放器、電話鍵、門鍵或環境音開關，才會出聲。
+- iPhone Safari 對「延遲幾秒才播」的音效（電話接線員、門 B 的第二次人聲）比較容易攔截；玩家再點一下頁面通常就會播。
+
+聲音檔合計 9,249,056 bytes（約 8.82 MiB，22 個 MP3），沒有把 48 kHz／24 bit WAV 母帶放進 repo。
+母帶另外打包，不影響遊戲運行。
+
+### 部署後建議改一個小地方
+
+`index.html` 與 `start.html` 的 `og:image` 現在是相對路徑。Facebook、X 等分享預覽
+有時不接受相對路徑；部署後把這一行改成絕對網址即可：
+
+```html
+<meta property="og:image" content="https://<你的帳號>.github.io/<repo 名稱>/assets/img/og_huilan.jpg">
+```
+
+不改也不影響遊戲，只影響分享卡片。
+
+---
+
+## 頁面地圖
+
+```
+主站
+├── start.html            開始頁（內容警告、進入）
+├── index.html            首頁（站名 GIF、NEW!、計數器 0007）
+├── about.html            站長照片：整個人過曝，只剩一隻手清楚
+├── service.html          價目表 + 委託單 + 工作室照片
+├── works.html            A-001 ～ A-017
+├── works/a-017.html      真實播放器 + 降噪滑桿（100% → 少 0.8 秒）
+├── guestbook.html        秋月六條留言、0327 斷號
+├── notes/20050222.html   底噪波形（一分鐘 14 次）
+├── notes/20050310.html   第七卷
+├── notes/20050311.html   空白正文 + 最後錄音 0311_0312.wav
+├── links.html            四個友情連結（都可點）
+├── phone/                假撥號：7＝線路停用、0＝語音信箱
+├── door/                 鐵門照片 + 兩個結局；解鎖後多一條 D
+├── ending-d.html         D 結局「夢回」的三選一
+├── end.html              存檔摘要（A／B／C／D）
+├── 404.html              自訂 404
+├── _v/                   原始檔層（viewer + 目錄）
+├── backup/0311/          0327 留言、HN-2005-0311 工單
+├── backup/1998/          1998 法會側錄、CAM03、七卷帶子、V-05
+├── sub.chaoyin/          潮音宮（首頁／教義／回瀾經／第七段／名錄／公告／御子之聲）
+├── sub.miaogang/         澪港漁會（首頁／遷村公告／遷村名冊）
+├── bbs/                  聽海小站 BBS 殘骸
+└── sys/                  工單系統（登入 → 工單 → 缺口還原）
+```
+
+---
+
+## 新增的幾個入口（不想被劇透就別看）
+
+<details>
+<summary>點開看答案</summary>
+
+1. 首頁 → 記下 `2005/03/11 03:12`、訪客數 `0007`
+2. 留言板 → 秋月六條 → `0327 本留言暫不顯示`
+3. 頁尾註解 → `backup/0311/guestbook/0327.html`
+4. 同目錄工單 → `door/`
+5. `links.html` → 潮音宮／澪港漁會／聽海小站
+6. 潮音宮名錄 → 第七個名字塗黑（源碼：`７　周夢回（錨）`）
+7. 潮音宮公告 → 1998/08/07 法會 → `backup/1998/`
+8. `sys/`：工號 `1997`、`1998` 或 `2003`，口令 `0807`（法會日期）
+9. 工單 HN-2005-0311 → 缺口還原 → 「我在這裡。」
+10. 御子之聲照 1→7 順序聽完 → 門頁出現 D 線
+11. 在委託單填過名字的人，門前輸入框會自己填好
+12. 不開門下樓 → C 結局；下一輪留言板會出現 `0348`，名字是你留下的
+
+</details>
+
+---
+
+## 資產對照
+
+| 資產 | 用在哪 |
+|---|---|
+| I-01 過曝照 | `about.html`（檔名 `about_2004_final_final2.jpg`） |
+| I-02 卡帶特寫 | `works/a-017.html` |
+| I-03 七卷卡帶 | `backup/1998/index.html` |
+| I-04 無面神像 | `sub.chaoyin/index.html` |
+| I-05 鐵門 | `door/index.html` |
+| I-06 1998 剪報 | `sub.chaoyin/notice.html` |
+| I-07 回瀾經第七段 | `sub.chaoyin/scripture7.html` |
+| I-08 名錄塗黑 | `sub.chaoyin/roster.html` |
+| I-09 波形 | `notes/20050222.html` |
+| I-10 站名 GIF | `index.html` |
+| I-11 分隔線／NEW! | 全站 CSS ／ 首頁 |
+| I-12 2003 遷村剪報 | `sub.miaogang/notice.html` |
+| I-13 空村 | `sub.miaogang/index.html` |
+| I-14 工作室 | `service.html` |
+| I-15 秋月背影 | `backup/0311/guestbook/0327.html` |
+| I-16 手繪地圖 | `sub.miaogang/roster.html` |
+| I-17 BBS 截圖 | `bbs/index.html` |
+| I-18 監控 | `backup/1998/index.html` |
+| `og_huilan.jpg` | `index.html`、`start.html` 分享卡 |
+| V-01 A-017 獨白 | `works/a-017.html`（原始／修復雙版本） |
+| V-02 電話留言 | `phone/` 按 0 |
+| V-03 我叫秋月 ×7 | `sub.chaoyin/voice.html`；B 結局 |
+| V-04 最後錄音 | `notes/20050311.html`；工單下載連結 |
+| V-05 七人報數 | `backup/1998/`；`sys/restore.html` |
+| V-06 接線員 | `phone/` 按 7 |
+| V-07 呼吸層 | `works/a-017.html` 播放時疊加；`notes/20050222` 試聽 |
+| E-01 ～ E-08 | 各頁頁尾「♪ 環境音」開關 |
+
+---
+
+## 音檔與格式
+
+- 網頁播放：`assets/audio/web/*.mp3`（44.1 kHz／單聲道／128 kbps，22 個，合計 9,249,056 bytes，約 8.82 MiB／8.8 MB）
+- 母帶：48 kHz／24 bit／單聲道 WAV；V-01 raw 精確 40.000 秒、clean 精確 39.200 秒，
+  V-04 61.000 秒，V-07 180.000 秒（42 次呼吸，平均間隔 4.285 秒，正好 14.0 次／分鐘）。
+- 剪輯、字幕與播放器一律以母帶 40.000／39.200 秒為準；不同播放器解碼後可能有數十毫秒誤差。
+- V-02 保留 19.069 秒版本（素材待辦建議 25 秒，但現有母帶是 19 秒；不影響線路內容）。
+- 播放器全部由使用者點擊後才出聲（瀏覽器自動播放限制）。
+- 耳機提示寫在頁面上，不彈窗。
+
+---
+
+## 這次驗收
+
+- 桌面 1000×900、手機 375×812 逐頁開過：37 個 HTML，沒有 JS pageerror、沒有缺圖、沒有橫向滾動。
+- A-017：原始 40.0 → 100% 切到修復版 39.2；33.0–33.8 缺口在切換時扣掉，不會倒跳。
+- 電話 7／0、門 A／B／C、D 解鎖與三選一、sys 三組工號、缺口還原、御子之聲 1→7、
+  留言板 0348、結束頁 A／B／C／D、開始頁進入，均已走過。
+- 404 在 GitHub Pages 的深層路徑下會用 pathname 第一段回到專案根。
+- `.nojekyll` 在根目錄，`_v/`、`backup/` 不會被 Jekyll 忽略。
+
+---
+
+## 版本紀錄
+
+### v1.1
+
+- I-01 換成「整個人過曝、只有手清楚」的版本（不是單獨一隻手）。
+- I-06 剪報改為右到左直排，新增 `p9.jpg` 漁港夜景；I-08 名錄七人逐字對齊頁面，補回底部「第七位：不可問。不可記。」；I-17 去掉 ANSI 控制碼與 `local.shihping`；I-02 卡帶「七」用紙紋補丁重寫。
+- V-01 raw/clean、V-04、V-07 重建；V-07 改為 180 秒合成呼吸層，14 次／分鐘、首尾交叉淡化。
+- 全部 MP3 重編 128 kbps；V-01 raw 40.000／clean 39.200（WAV 母帶）。
+- `player-a017.js`：raw gain 0.9→1.0；`switchToClean()` 扣掉 0.8 秒缺口，33.0–33.8 停在缺口起點。
+- `end.html` 移除頁腳舊版字樣與空白作者欄；B 結局標題錯字「沉澪」改「沉澱」。
+- 全站補 viewport；名錄雙欄在 375px 改為上下堆疊；`table.list` 窄屏 100%。
+- 補回 `divider.gif`；首頁／開始頁 OG 圖換 `og_huilan.jpg`；404 回首頁改為路徑推算。
+- 移除網站根目錄的開發文件《素材待辦》，避免玩家直接看到答案。
+
+### v1.0
+
+- 以早期上傳的 RAR 包架構重做視覺與音訊，33 頁 QA。

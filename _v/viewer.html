@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>原始檔</title>
+<style>
+  body{margin:0;background:#0c0a08;color:#9ab0a0;font:12px/1.6 "Courier New",monospace;}
+  .bar{background:#1b1611;border-bottom:1px solid #332d26;padding:8px 12px;color:#7d7466;
+       display:flex;justify-content:space-between;font-family:Arial,sans-serif;font-size:11px;}
+  .bar a{color:#8fa89b;text-decoration:none;}
+  pre{margin:0;padding:16px;white-space:pre-wrap;word-break:break-all;}
+  .err{color:#b08a6a;padding:24px;font-family:"MingLiU","PMingLiU",serif;font-size:13px;line-height:2;}
+</style>
+</head>
+<body>
+<div class="bar">
+  <span id="name">原始檔</span>
+  <span><a href="index.html">目錄</a>　<a href="javascript:history.back()">← 回上一頁</a></span>
+</div>
+<div id="out">載入中……</div>
+
+<script>
+(function () {
+  var f = new URLSearchParams(location.search).get("f") || "";
+  document.getElementById("name").textContent = f || "原始檔";
+  var out = document.getElementById("out");
+
+  function fail() {
+    out.innerHTML =
+      '<div class="err">' +
+      "無法讀取原始檔（以 file:// 開啟時，瀏覽器會阻擋讀檔）。<br><br>" +
+      "請改用以下任一方式：<br>" +
+      "1. 在這個頁面按 <b>Ctrl+U</b>（Mac：⌘⌥U）檢視原始碼；<br>" +
+      "2. 用本機伺服器開啟整個資料夾，再點「原始檔」。<br><br>" +
+      '<span style="color:#4b443a">（提示：註解是寫給人看的，也是寫給下一個人看的。）</span>' +
+      "</div>";
+  }
+
+  if (!f) { fail(); return; }
+
+  fetch("../" + f, { cache: "no-store" })
+    .then(function (r) {
+      if (!r.ok) throw new Error("404");
+      return r.text();
+    })
+    .then(function (txt) {
+      var pre = document.createElement("pre");
+      pre.textContent = txt;
+      out.innerHTML = "";
+      out.appendChild(pre);
+    })
+    .catch(fail);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>存檔摘要</title>
+<link rel="stylesheet" href="css/old.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="head">
+    <div class="logo">存檔摘要</div>
+    <div class="sub">Save Summary &nbsp;/&nbsp; 回瀾</div>
+  </div>
+
+  <div class="body">
+
+    <h2 id="ttl">—</h2>
+    <p id="txt" style="color:#b9b09d;line-height:2.1;"></p>
+
+    <div class="divider"></div>
+
+    <h3>已抵達的結局</h3>
+    <table class="list" id="list" style="width:420px;"></table>
+
+    <p class="small gray" style="margin-top:12px;">
+      還有一些東西，要走到看不見的地方才會出現。
+    </p>
+
+    <div class="divider"></div>
+
+    <p class="small gray">
+      約 60–90 分鐘　·　《回瀾》　·　2026<br>
+      故事、文本、程式：回瀾工作室　｜　聲音：合成語音　｜　圖像：程序化與生成素材
+    </p>
+    <p class="small gray">
+      有任何想法，留在 <a href="guestbook.html">留言板</a>。
+    </p>
+
+    <p class="small" style="margin-top:18px;">
+      <a href="start.html">再走一次</a>　｜　<a href="#" id="wipe">清除紀錄</a>
+    </p>
+
+  </div>
+
+  <div class="foot">
+    《回瀾》　·　本作為虛構創作，人物與事件均屬虛構。
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var E = {
+    A: { n: "回岸", t: "門開了。樓梯間沒有人。你回頭，工作室的燈還亮著。桌上有一卷帶子，標籤上寫著你的名字。" },
+    B: { n: "沉澱", t: "門開了。樓梯間沒有人。你等了很久。門縫下的光，熄了。你下樓，身後的門自己關上。" },
+    C: { n: "聽潮人", t: "你沒有開門。你下樓。三天後，你收到一封信：您預約的第七卷已備妥。" },
+    D: { n: "夢回", t: "你改寫了那一天。可是記得的人，只剩下你。" }
+  };
+  var ORDER = ["A", "B", "C", "D"];
+  var got = [];
+  try { got = JSON.parse(localStorage.getItem("hl_endings") || "[]"); } catch (e) { got = []; }
+  if (!Array.isArray(got)) got = [];
+
+  function param(k) {
+    try { return new URLSearchParams(location.search).get(k); } catch (e) { return null; }
+  }
+
+  var q = param("e");
+  if (q && E[q] && got.indexOf(q) < 0) got.push(q);
+  try { localStorage.setItem("hl_endings", JSON.stringify(got)); } catch (e) {}
+
+  if (q && E[q]) {
+    document.getElementById("ttl").textContent = "結局 " + q + "　" + E[q].n;
+    document.getElementById("txt").textContent = E[q].t;
+  } else {
+    document.getElementById("ttl").textContent = "存檔摘要";
+    document.getElementById("txt").textContent = "你還沒有走到任何一個結局。";
+  }
+
+  document.getElementById("list").innerHTML = ORDER.map(function (k) {
+    var has = got.indexOf(k) >= 0;
+    return "<tr><td style='width:56px'>" + k + "</td><td>" +
+      (has ? E[k].n : "██") + "</td><td class='gray'>" +
+      (has ? "已抵達" : "未抵達") + "</td></tr>";
+  }).join("");
+
+  document.getElementById("wipe").addEventListener("click", function (e) {
+    e.preventDefault();
+    if (confirm("清除所有紀錄？")) {
+      try { localStorage.clear(); } catch (e2) {}
+      location.href = "start.html";
+    }
+    return false;
+  });
+})();
+</script>
+</body>
+</html>

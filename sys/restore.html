@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-Hant">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>缺口還原 - 工單系統</title>
+<link rel="stylesheet" href="../css/old.css">
+<script>
+try {
+  if (sessionStorage.getItem("hl_sys") !== "1") location.replace("index.html");
+} catch (e) { location.replace("index.html"); }
+</script></head>
+<body class="">
+<div class="page">
+
+  <div class="head">
+    <div class="logo">HN 工單系統</div>
+    <div class="sub">HUI-AN WORK ORDER &nbsp;/&nbsp; v1.1</div>
+  </div>
+
+  <div class="nav">
+    <a href="../index.html">回主站</a>｜
+    <a href="../works/a-017.html">A-017</a>
+  </div>
+
+  <div class="body">
+    <h2>缺口還原</h2>
+    <p class="small gray">A-017｜00:33.0–00:33.8｜0.8 秒</p>
+
+    <table class="list" style="width:560px;margin-top:12px;">
+      <tr><td style="width:100px" class="gray">來源</td><td>A-017 修復版（39.2 秒）</td></tr>
+      <tr><td class="gray">比對</td><td>A-1998-07 側錄帶（26.0 秒）</td></tr>
+      <tr><td class="gray">缺口</td><td class="warn">00:33.0–00:33.8（0.8 秒）</td></tr>
+      <tr><td class="gray">狀態</td><td>可還原</td></tr>
+    </table>
+
+    <div class="notice" id="redacted" style="margin-top:16px;">
+      可還原內容：<span class="gray">██　██　██　██</span>
+    </div>
+
+    <p style="margin-top:14px;">
+      <button class="sndbtn" id="restoreBtn" type="button">還原 0.8 秒</button>
+      <span class="small gray" id="rstate"></span>
+    </p>
+
+    <div id="reveal" style="display:none;margin-top:18px;">
+      <p style="font-size:20px;letter-spacing:4px;color:#e8dfcb;">「我在這裡。」</p>
+      <table class="list" style="width:560px;margin-top:12px;">
+        <tr><td style="width:110px" class="gray">聲紋</td><td>周夢回（1998）</td></tr>
+        <tr><td class="gray">吻合度</td><td>97.4%</td></tr>
+        <tr><td class="gray">長度</td><td>0.8 秒（已補回）</td></tr>
+      </table>
+      <p class="small gray" style="margin-top:10px;">
+        此區段不在 A-017 帶上。它來自 1998 年的另一卷帶子。
+      </p>
+    </div>
+
+    <div class="divider"></div>
+    <p class="small"><a href="workorder.html">回工單</a>｜<a href="../backup/1998/index.html">A-1998-07</a></p>
+
+  </div>
+
+  <div class="foot">
+    Copyright 2004 回岸音檔修復工作室　最後更新 2005/03/11 03:12<br>
+    <a class="src" href="#" data-src="sys/restore.html">原始檔</a><br><br><span style="color:#3f3830;">※ 本網站為虛構創作，人物、地點與事件均屬虛構。</span>
+  </div>
+
+</div>
+<script>window.HL_VIEWER="../_v/viewer.html";</script>
+<script src="../js/hl-audio.js"></script>
+<script src="../js/site.js"></script>
+<script>
+(function(){
+  var btn = document.getElementById("restoreBtn");
+  var state = document.getElementById("rstate");
+  var reveal = document.getElementById("reveal");
+  var red = document.getElementById("redacted");
+  if (!btn) return;
+  var a = new Audio(HL.url("v05_count_1998"));
+  a.preload = "auto";
+  var started = false;
+  btn.addEventListener("click", function(){
+    if (started) return;
+    started = true;
+    state.textContent = "還原中……請勿關閉頁面。";
+    var seek = function(){ try { a.currentTime = 20.85; } catch(e){} };
+    if (a.readyState >= 1) seek(); else a.addEventListener("loadedmetadata", seek);
+    a.volume = 0.85;
+    var p = a.play(); if (p && p.catch) p.catch(function(){});
+    setTimeout(function(){
+      reveal.style.display = "block";
+      red.innerHTML = '已還原：<span style="color:#cfc6b4;">「我在這裡。」</span>';
+      state.textContent = "還原完成（0.8 秒）";
+      btn.disabled = true;
+    }, 1400);
+    a.addEventListener("timeupdate", function(){
+      if (a.currentTime > 22.6) { a.pause(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
