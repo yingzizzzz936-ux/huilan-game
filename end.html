@@ -30,6 +30,14 @@
 
     <div class="divider"></div>
 
+    <h3>你知道了什麼</h3>
+    <table class="list" id="know" style="width:520px;"></table>
+    <p class="small gray" style="margin-top:10px;">
+      沒對上的，代表你走過去了，但沒有停下來看。
+    </p>
+
+    <div class="divider"></div>
+
     <p class="small gray">
       約 60–90 分鐘　·　《回瀾》　·　2026<br>
       故事、文本、程式：回瀾工作室　｜　聲音：合成語音　｜　圖像：程序化與生成素材
@@ -79,10 +87,38 @@
     document.getElementById("txt").textContent = "你還沒有走到任何一個結局。";
   }
 
+  var a0 = false;
+  if (q === "A") {
+    var ka = null;
+    try { ka = localStorage.getItem("hl_know_a"); } catch (e) {}
+    if (ka === "0") {
+      a0 = true;
+      document.getElementById("ttl").textContent = "結局 A　空殼";
+      var pn = document.createElement("p");
+      pn.className = "small gray";
+      pn.textContent = "（你沒有認出他。進來的不是他。）";
+      var txtEl = document.getElementById("txt");
+      txtEl.parentNode.insertBefore(pn, txtEl.nextSibling);
+    }
+  }
+
+  var K = [
+    ["周夢回死於 1998 年", !!(localStorage.getItem("hl_k_roster") && localStorage.getItem("hl_k_village"))],
+    ["秋月澪是他的錨", !!localStorage.getItem("hl_k_note")],
+    ["第七卷原本是空的", !!localStorage.getItem("hl_k_tape")],
+    ["0.8 秒裡的那句話", !!localStorage.getItem("hl_k_gap")],
+    ["你自己是誰的錨", !!localStorage.getItem("hl_anchor")]
+  ];
+  document.getElementById("know").innerHTML = K.map(function (it) {
+    return "<tr><td>" + it[0] + "</td><td style='width:64px' class='gray'>" +
+           (it[1] ? "<span style='color:#7f9c88'>●</span>" : "——") + "</td></tr>";
+  }).join("");
+
   document.getElementById("list").innerHTML = ORDER.map(function (k) {
     var has = got.indexOf(k) >= 0;
+    var label = (k === "A" && a0) ? "空殼" : E[k].n;
     return "<tr><td style='width:56px'>" + k + "</td><td>" +
-      (has ? E[k].n : "██") + "</td><td class='gray'>" +
+      (has ? label : "██") + "</td><td class='gray'>" +
       (has ? "已抵達" : "未抵達") + "</td></tr>";
   }).join("");
 

@@ -65,7 +65,16 @@
   btn.addEventListener("click", function(){
     var name = input.value.trim();
     var snd = (window.HL) ? HL.once("e03_door_hinge", 0.8) : null;
-    if (name) {
+
+    var knows = false;
+    try {
+      knows = !!(localStorage.getItem("hl_k_roster") &&
+                  localStorage.getItem("hl_k_village") &&
+                  localStorage.getItem("hl_k_note"));
+      localStorage.setItem("hl_know_a", knows ? "1" : "0");
+    } catch (e) {}
+
+    if (name && knows) {
       show(
         '<h2>回岸</h2>' +
         '<p>門開了。</p>' +
@@ -73,6 +82,16 @@
         '<p class="gray">網站恢復更新。站長的名字換成了你的。</p>' +
         '<p class="small gray">（你沒有聽見腳步聲。）</p>' +
         '<p class="small"><a href="../index.html">回工作室首頁</a>　<a href="../backup/20261121/guestbook/0347.html">（存檔）</a>　<a href="../end.html?e=A">（存檔摘要）</a></p>',
+        1
+      );
+    } else if (name) {
+      show(
+        '<h2>空殼</h2>' +
+        '<p>門開了。</p>' +
+        '<p>樓梯間沒有人。你回頭，工作室的燈還亮著。</p>' +
+        '<p class="gray">桌上有一卷帶子，標籤上寫著你的名字。<br>可是你認不出那是誰的字。</p>' +
+        '<p class="small gray">（你放進來的東西，不是他。）</p>' +
+        '<p class="small"><a href="../index.html">回工作室首頁</a>　<a href="../end.html?e=A">（存檔摘要）</a></p>',
         1
       );
     } else {
@@ -105,7 +124,10 @@
   };
 
   try {
-    if (localStorage.getItem("hl_seven")) {
+    var canDream = localStorage.getItem("hl_seven") &&
+                   localStorage.getItem("hl_k_gap") &&
+                   !localStorage.getItem("hl_name");
+    if (canDream) {
       document.getElementById("dreamRow").style.display = "block";
     }
   } catch (e) {}

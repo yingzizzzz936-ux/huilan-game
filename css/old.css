@@ -348,3 +348,16 @@ body.y2003 a { color: #8fa89b; }
     border-left: 0; border-right: 0;
   }
 }
+
+/* 轉速切換 */
+.speedrow {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 14px; font-size: 12px;
+}
+.speedrow > span:first-child { color: #7d7466; margin-right: 4px; }
+.tsw {
+  background: #1b1611; border: 1px solid #3a332c; color: #7d7466;
+  font-family: "Courier New", monospace; font-size: 12px;
+  padding: 3px 10px; letter-spacing: 1px; cursor: pointer;
+}
+.tsw.on { background: #2a241d; border-color: #7f9c88; color: #cfc6b4; }

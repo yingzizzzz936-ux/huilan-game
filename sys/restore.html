@@ -15,7 +15,7 @@ try {
 
   <div class="head">
     <div class="logo">HN 工單系統</div>
-    <div class="sub">HUI-AN WORK ORDER &nbsp;/&nbsp; v1.1</div>
+    <div class="sub">HUI-AN WORK ORDER &nbsp;/&nbsp; v1.2</div>
   </div>
 
   <div class="nav">
@@ -89,6 +89,7 @@ try {
     var p = a.play(); if (p && p.catch) p.catch(function(){});
     setTimeout(function(){
       reveal.style.display = "block";
+      try { localStorage.setItem("hl_k_gap", "1"); } catch (e) {}
       red.innerHTML = '已還原：<span style="color:#cfc6b4;">「我在這裡。」</span>';
       state.textContent = "還原完成（0.8 秒）";
       btn.disabled = true;
